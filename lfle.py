@@ -13,19 +13,19 @@ import struct
 
 import argparse
 
-verbose = False
-status = True
+isVerbose = False
+isStatus = True
 
 
 def debug(s):
     global verbose
-    if verbose:
+    if isVerbose:
         print "# [d] %s" % (s)
 
 
 def print_status(s):
     global status
-    if status:
+    if isStatus:
         sys.stdout.write(s)
 
 
@@ -202,12 +202,12 @@ def main():
     parser_results = parser.parse_args()
 
     if parser_results.verbose:
-        global verbose
-        verbose = True
+        global isVerbose
+        isVerbose = True
 
-    if not parser_results.nostatus:
-        global status
-        status = True
+    if parser_results.nostatus:
+        global isStatus
+        isStatus = False
 
     doit(parser_results.input_path, parser_results.output_path)
 
