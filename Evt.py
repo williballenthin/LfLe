@@ -139,16 +139,16 @@ class Record(Block, Nestable):
         rest = string_buf
         for _ in xrange(self.num_strings()):
             part, _, rest = rest.partition("\x00\x00")
-            if rest[0] == "\x00":
-                part +="\x00"
-            ret.append(part.decode("utf-16le"))
+            if len(part) % 2 == 1 or (len(rest) > 0 and rest[0] == "\x00"):
+                part += "\x00"
+            ret.append(part.lstrip("\x00").decode("utf-16le"))
         return ret
 
     def source(self):
         source_buf = self.unpack_binary(0x38, self.length() - 0x38)
         part, _, rest = source_buf.partition("\x00\x00")
-        if rest[0] == "\x00":
-            part +="\x00"
+        if len(part) % 2 == 1 or (len(rest) > 0 and rest[0] == "\x00"):
+            part += "\x00"
         return part.decode("utf-16le")
 
     @staticmethod
