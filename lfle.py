@@ -59,6 +59,37 @@ def doit(filename, outputfilename):
     MINRECORD = 0x30
     o = open(outputfilename, "wb")
 
+    # 0000   30 00 00 00 4C 66 4C 65 01 00 00 00 01 00 00 00    0...LfLe........
+    # 0010   30 00 00 00 30 00 00 00 01 00 00 00 00 00 00 00    0...0...........
+    # 0020   00 00 01 00 00 00 00 00 80 51 01 00 30 00 00 00    .........Q..0...
+    #
+    # 0x0 (dword)length	0x30
+    # 0x4 (string)signature	LfLe
+    # 0x8 (dword)major_version	0x1
+    # 0xc (dword)minor_version	0x1
+    # 0x10 (dword)start_offset	0x30
+    # 0x14 (dword)end_offset	0x30
+    # 0x18 (dword)current_record_number	0x1
+    # 0x1c (dword)oldest_record_number	0x0
+    # 0x20 (dword)max_size	0x10000
+    # 0x24 (dword)flags	0x0
+    # 0x28 (dword)retention	0x15180
+    # 0x2c (dword)end_length	0x30
+    o.write("0\x00\x00\x00LfLe\x01\x00\x00\x00\x01\x00\x00\x000\x00\x00\x000\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x80Q\x01\x000\x00\x00\x00")
+
+    # 0000   28 00 00 00 11 11 11 11 22 22 22 22 33 33 33 33    (.......""""3333
+    # 0010   44 44 44 44 30 00 00 00 B8 5F 00 00 65 00 00 00    DDDD0...._..e...
+    # 0020   01 00 00 00 28 00 00 00                            ....(...
+    #
+    # 0x0 (dword)length	0x28
+    # 0x4 (qword)signature1	0x2222222211111111
+    # 0xc (qword)signature2	0x4444444433333333
+    # 0x14 (dword)start_offset	0x30
+    # 0x18 (dword)next_offset	0x58
+    # 0x1c (dword)current_record_number	0x1
+    # 0x20 (dword)oldest_record_number	0x1
+    o.write("(\x00\x00\x00\x11\x11\x11\x11\"\"\"\"3333DDDD0\x00\x00\x00\x58\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00(\x00\x00\x00")
+
     def write_buf(buf):
         if buf.count("LfLe") > 1:
             raise InvalidContents("More than 1 magic in copy!")
