@@ -33,8 +33,9 @@ def main():
             offset = buf.find("LfLe", offset)  # skip header
             while offset != -1:
                 record = Record(buf, offset - 0x4)
-                print(hex_dump(buf[record.offset():record.offset() + record.length()]))
-                print(record.get_all_string(indent=0))
+                print('%s, %d, "%s", "%s"' % (record.time_generated().isoformat("T") + "Z",
+                                              record.event_id(), record.source(),
+                                              str(record.strings())))
                 offset = buf.find("LfLe", offset + 1)  # skip header
 
 if __name__ == "__main__":
