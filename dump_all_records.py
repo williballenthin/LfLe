@@ -23,6 +23,7 @@ import contextlib
 
 from Evt import Record
 from BinaryParser import hex_dump
+from BinaryParser import OverrunBufferException
 
 
 def main():
@@ -32,7 +33,10 @@ def main():
             offset = 0x8
             offset = buf.find("LfLe", offset)  # skip header
             while offset != -1:
-                record = Record(buf, offset - 0x4)
+                try:
+                    record = Record(buf, offset - 0x4)
+                except OverrunBufferException:
+                    break
                 print(hex_dump(buf[record.offset():record.offset() + record.length()]))
                 print(record.get_all_string(indent=0))
                 offset = buf.find("LfLe", offset + 1)  # skip header

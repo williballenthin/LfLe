@@ -22,7 +22,7 @@ import mmap
 import contextlib
 
 from Evt import Record
-from BinaryParser import hex_dump
+from BinaryParser import OverrunBufferException
 
 
 def main():
@@ -32,7 +32,10 @@ def main():
             offset = 0x8
             offset = buf.find("LfLe", offset)  # skip header
             while offset != -1:
-                record = Record(buf, offset - 0x4)
+                try:
+                    record = Record(buf, offset - 0x4)
+                except OverrunBufferException:
+                    break
                 print('%s, %d, "%s", "%s"' % (record.time_generated().isoformat("T") + "Z",
                                               record.event_id(), record.source(),
                                               str(record.strings())))
