@@ -23,26 +23,16 @@ import contextlib
 
 from Evt import Record
 from BinaryParser import hex_dump
-from BinaryParser import OverrunBufferException
 
 
 def main():
     with open(sys.argv[1], 'r') as f:
         with contextlib.closing(mmap.mmap(f.fileno(), 0,
                                           access=mmap.ACCESS_READ)) as buf:
-            offset = 0x8
-            offset = buf.find("LfLe", offset)  # skip header
-            while offset != -1:
-                try:
-                    record = Record(buf, offset - 0x4)
-                except OverrunBufferException:
-                    break
-                print(hex_dump(buf[record.offset():record.offset() + record.length()]))
-                print(record.get_all_string(indent=0))
-                if record.length() > 0x100:
-                    offset = buf.find("LfLe", offset + 1)
-                else:
-                    offset = buf.find("LfLe", offset + record.length())
+            record = Record(buf, int(sys.argv[2]))
+            print(hex_dump(buf[record.offset():record.offset() + record.length()]))
+            print(record.get_all_string(indent=0))
 
 if __name__ == "__main__":
     main()
+

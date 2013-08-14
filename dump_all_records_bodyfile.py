@@ -22,7 +22,6 @@ import mmap
 import contextlib
 
 from Evt import Record
-from BinaryParser import hex_dump
 from BinaryParser import OverrunBufferException
 
 
@@ -37,8 +36,17 @@ def main():
                     record = Record(buf, offset - 0x4)
                 except OverrunBufferException:
                     break
-                print(hex_dump(buf[record.offset():record.offset() + record.length()]))
-                print(record.get_all_string(indent=0))
+                try:
+                    # MD5|name|inode|mode_as_string|UID|GID|size|atime|mtime|ctime|crtime
+                    print("0|EVT[%s]: event %d %s|0|0|0|0|0|%s|%s|%s|%s" % (record.source(),
+                                                                            record.event_id(),
+                                                                            str(record.strings()),
+                                                                            record.time_generated().strftime('%s'),
+                                                                            record.time_generated().strftime('%s'),
+                                                                            record.time_generated().strftime('%s'),
+                                                                            record.time_generated().strftime('%s')))
+                except UnicodeDecodeError:
+                    pass
                 if record.length() > 0x100:
                     offset = buf.find("LfLe", offset + 1)
                 else:

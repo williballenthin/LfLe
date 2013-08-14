@@ -36,10 +36,16 @@ def main():
                     record = Record(buf, offset - 0x4)
                 except OverrunBufferException:
                     break
-                print('%s, %d, "%s", "%s"' % (record.time_generated().isoformat("T") + "Z",
-                                              record.event_id(), record.source(),
-                                              str(record.strings())))
-                offset = buf.find("LfLe", offset + 1)  # skip header
+                try:
+                    print('%s, %d, "%s", "%s"' % (record.time_generated().isoformat("T") + "Z",
+                                                  record.event_id(), record.source(),
+                                                  str(record.strings())))
+                except UnicodeDecodeError:
+                    pass
+                if record.length() > 0x100:
+                    offset = buf.find("LfLe", offset + 1)
+                else:
+                    offset = buf.find("LfLe", offset + record.length())
 
 if __name__ == "__main__":
     main()
