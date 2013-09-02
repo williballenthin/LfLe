@@ -47,6 +47,8 @@ def main():
                                                                             record.time_generated().strftime('%s')))
                 except UnicodeDecodeError:
                     pass
+                except OverrunBufferException:
+                    pass
                 if record.length() > 0x100:
                     offset = buf.find("LfLe", offset + 1)
                 else:
