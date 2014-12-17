@@ -42,6 +42,8 @@ def main():
                                                   str(record.strings())))
                 except UnicodeDecodeError:
                     pass
+                except UnicodeEncodeError:
+                    pass
                 except OverrunBufferException:
                     pass
                 if record.length() > 0x100:
