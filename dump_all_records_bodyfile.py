@@ -47,6 +47,8 @@ def main():
                                                                             record.time_generated().strftime('%s')))
                 except UnicodeDecodeError:
                     pass
+                except UnicodeEncodeError:
+                    pass
                 except OverrunBufferException:
                     pass
                 if record.length() > 0x100:
