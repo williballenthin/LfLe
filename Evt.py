@@ -100,7 +100,7 @@ class SID(Block, Nestable):
     def __len__(self):
         return self._off_sub_authorities + (self.sub_authority_count() * 4)
 
-    def string(self):
+    def __str__(self):
         ret = "S-%d-%s" % (self.revision(), self.identifier_authority())
         for sub_auth in self.sub_authorities():
             ret += "-%s" % (str(sub_auth))
