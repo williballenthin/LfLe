@@ -17,7 +17,7 @@ import argparse
 try:
     from Evt.Evt import EvtCarver
 except ImportError:
-    print("Error: you must have the python-evt package installed (use `pip`)!"
+    print("Error: you must have the python-evt package installed (use `pip`)!")
 
 
 g_logger = logging.getLogger("lfle")
