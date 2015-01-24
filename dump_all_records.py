@@ -21,9 +21,9 @@ import sys
 import mmap
 import contextlib
 
-from Evt import Record
-from BinaryParser import hex_dump
-from BinaryParser import OverrunBufferException
+from Evt.Evt import Record
+from Evt.BinaryParser import hex_dump
+from Evt.BinaryParser import OverrunBufferException
 
 
 def main():

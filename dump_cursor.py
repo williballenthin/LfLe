@@ -21,8 +21,8 @@ import sys
 import mmap
 import contextlib
 
-from Evt import Cursor
-from BinaryParser import hex_dump
+from Evt.Evt import Cursor
+from Evt.BinaryParser import hex_dump
 
 
 def main():

@@ -21,7 +21,7 @@ import sys
 import mmap
 import contextlib
 
-from Evt import Header
+from Evt.Evt import Header
 from BinaryParser import hex_dump
 
 
