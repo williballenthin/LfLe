@@ -18,6 +18,8 @@ try:
     from Evt.Evt import EvtCarver
 except ImportError:
     print("Error: you must have the python-evt package installed (use `pip`)!")
+    import sys
+    sys.exit(-1)
 
 
 g_logger = logging.getLogger("lfle")
