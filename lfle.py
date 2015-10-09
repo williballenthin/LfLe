@@ -126,7 +126,7 @@ def main():
         fout = sys.stdout
         g_logger.info("No output file provided, assuming STDOUT")
     else:
-        fout = open(args.input_path, "wb")
+        fout = open(args.output_path, "wb")
 
     try:
         do_carve(fin, fout)
